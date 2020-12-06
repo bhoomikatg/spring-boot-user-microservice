@@ -1,6 +1,10 @@
 package btg.spring.boot.userdetails.resource;
 
+import btg.spring.boot.userdetails.dao.AddressRepository;
+import btg.spring.boot.userdetails.dao.NameRepository;
 import btg.spring.boot.userdetails.dao.UserRepository;
+import btg.spring.boot.userdetails.model.Address;
+import btg.spring.boot.userdetails.model.PersonName;
 import btg.spring.boot.userdetails.model.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -22,6 +26,12 @@ public class UserDetailsResource {
     private static final ResponseEntity<String> GENERAL_ERROR_RESPONSE = new ResponseEntity<String>("Something went wrong, please check the inputs", HttpStatus.INTERNAL_SERVER_ERROR);
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private NameRepository nameRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     @GetMapping({"/{employeeId}"})
     @HystrixCommand(fallbackMethod = "fallbackForGet")
@@ -47,6 +57,23 @@ public class UserDetailsResource {
         Optional<User> existingUser = userRepository.findById(user.getEmpId());
         if (existingUser.isPresent()) {
             user = existingUser.get().merge(user);
+        }
+        // check if an entity with same name already exists, reuse that
+        PersonName userName = user.getName();
+        if (userName != null) {
+            Optional<PersonName> name = nameRepository.findByTitleAndFirstNameAndLastName(userName.getTitle(), userName.getFirstName(), userName.getLastName());
+            if (name.isPresent()) {
+                user.setName(name.get());
+            }
+        }
+        // check if an entity with same address already exists, reuse that
+        Address userAddress = user.getAddress();
+        if (userAddress!= null) {
+            Optional<Address> address = addressRepository.findByStreetAndCityAndStateAndPostCode(
+                    userAddress.getStreet(), userAddress.getCity(), userAddress.getState(), userAddress.getPostCode());
+            if (address.isPresent()) {
+                user.setAddress(address.get());
+            }
         }
         return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }

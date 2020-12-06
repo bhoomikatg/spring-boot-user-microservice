@@ -16,11 +16,11 @@ public class User {
 
     private String gender;
 
-    @OneToOne(targetEntity = PersonName.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = PersonName.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "nameId")
     private PersonName name;
 
-    @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Address.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "addressId")
     private Address address;
 

@@ -25,7 +25,8 @@ public class UserInterceptor implements HandlerInterceptor {
             loggingService.logRequest(request, null);
         }
         if (request.getMethod().equals("GET") &&
-                ((!request.getRequestURI().contains("invalidEmpId")) || (!request.getRequestURI().contains("fallback")))) {
+                ((!request.getRequestURI().contains("invalidEmpId"))
+                        || (!request.getRequestURI().contains("fallback")))) {
             String[] requestURI = request.getRequestURI().split("/");
             String employeeId = requestURI[requestURI.length - 1];
             Pattern pattern = Pattern.compile("\\d+");
