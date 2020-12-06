@@ -1,8 +1,6 @@
 package btg.spring.boot.userdetails.interceptor;
 
 import btg.spring.boot.userdetails.service.LoggingService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
@@ -26,7 +24,7 @@ public class UserInterceptor implements HandlerInterceptor {
         }
         if (request.getMethod().equals("GET") &&
                 ((!request.getRequestURI().contains("invalidEmpId"))
-                        || (!request.getRequestURI().contains("fallback")))) {
+                        && (!request.getRequestURI().contains("fallback")))) {
             String[] requestURI = request.getRequestURI().split("/");
             String employeeId = requestURI[requestURI.length - 1];
             Pattern pattern = Pattern.compile("\\d+");

@@ -23,7 +23,7 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserDetailsResource {
 
-    private static final ResponseEntity<String> GENERAL_ERROR_RESPONSE = new ResponseEntity<String>("Something went wrong, please check the inputs", HttpStatus.INTERNAL_SERVER_ERROR);
+    private static final ResponseEntity<String> GENERAL_ERROR_RESPONSE = new ResponseEntity<>("Something went wrong, please check the inputs", HttpStatus.INTERNAL_SERVER_ERROR);
     @Autowired
     private UserRepository userRepository;
 
@@ -49,8 +49,6 @@ public class UserDetailsResource {
         User user = null;
         try {
             user = objectMapper.readValue(request, typeReference);
-        } catch (JsonProcessingException e) {
-            return GENERAL_ERROR_RESPONSE;
         } catch (IOException e) {
             return GENERAL_ERROR_RESPONSE;
         }
@@ -88,6 +86,6 @@ public class UserDetailsResource {
     }
 
     public ResponseEntity fallbackForUpdate(String request) {
-        return new ResponseEntity<String>("There are some technical issues being experienced, please retry after some time.", HttpStatus.OK);
+        return new ResponseEntity<>("There are some technical issues being experienced, please retry after some time.", HttpStatus.OK);
     }
 }

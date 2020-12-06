@@ -1,5 +1,7 @@
 package btg.spring.boot.userdetails.resource;
 
+import btg.spring.boot.userdetails.dao.AddressRepository;
+import btg.spring.boot.userdetails.dao.NameRepository;
 import btg.spring.boot.userdetails.dao.UserRepository;
 import btg.spring.boot.userdetails.model.Address;
 import btg.spring.boot.userdetails.model.PersonName;
@@ -15,12 +17,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -34,6 +36,10 @@ public class UserDetailsResourceTest {
     @Autowired
     @MockBean
     private UserRepository userRepository;
+    @MockBean
+    private NameRepository nameRepository;
+    @MockBean
+    private AddressRepository addressRepository;
     @MockBean
     private LoggingService loggingService;
 
@@ -51,16 +57,16 @@ public class UserDetailsResourceTest {
         try {
             mvc.perform(get("/user/10"))
                     .andExpect(status().isOk())
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(6))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.empId").value(testUser.getEmpId()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.title").value(testUser.getName().getTitle()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value(testUser.getName().getFirstName()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value(testUser.getName().getLastName()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(testUser.getGender()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.address.city").value(testUser.getAddress().getCity()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.address.street").value(testUser.getAddress().getStreet()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.address.state").value(testUser.getAddress().getState()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.address.postCode").value(testUser.getAddress().getPostCode()));
+                    .andExpect(jsonPath("$.size()").value(4))
+                    .andExpect(jsonPath("$.empId").value(testUser.getEmpId()))
+                    .andExpect(jsonPath("$.name.title").value(testUser.getName().getTitle()))
+                    .andExpect(jsonPath("$.name.firstName").value(testUser.getName().getFirstName()))
+                    .andExpect(jsonPath("$.name.lastName").value(testUser.getName().getLastName()))
+                    .andExpect(jsonPath("$.gender").value(testUser.getGender()))
+                    .andExpect(jsonPath("$.address.city").value(testUser.getAddress().getCity()))
+                    .andExpect(jsonPath("$.address.street").value(testUser.getAddress().getStreet()))
+                    .andExpect(jsonPath("$.address.state").value(testUser.getAddress().getState()))
+                    .andExpect(jsonPath("$.address.postCode").value(testUser.getAddress().getPostCode()));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,7 +75,7 @@ public class UserDetailsResourceTest {
 
     @Test
     public void testUpdateUser() {
-        String updateJson = "{\"empId\" : \"10\" , \"firstName\" : \"xyz\", \"lastName\" : \"abc\"}";
+        String updateJson = "{\"empId\" : \"10\" , \"name\" : {\"firstName\" : \"xyz\", \"lastName\" : \"abc\"}}";
 
         try {
             mvc.perform(post("/user/update")
@@ -79,16 +85,16 @@ public class UserDetailsResourceTest {
 
             mvc.perform(get("/user/10"))
                     .andExpect(status().isOk())
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(6))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.empId").value(testUser.getEmpId()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.title").value(testUser.getName().getTitle()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("xyz"))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("abc"))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(testUser.getGender()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.address.city").value(testUser.getAddress().getCity()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.address.street").value(testUser.getAddress().getStreet()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.address.state").value(testUser.getAddress().getState()))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.address.postCode").value(testUser.getAddress().getPostCode()));
+                    .andExpect(jsonPath("$.size()").value(4))
+                    .andExpect(jsonPath("$.empId").value(testUser.getEmpId()))
+                    .andExpect(jsonPath("$.name.title").value(testUser.getName().getTitle()))
+                    .andExpect(jsonPath("$.name.firstName").value("xyz"))
+                    .andExpect(jsonPath("$.name.lastName").value("abc"))
+                    .andExpect(jsonPath("$.gender").value(testUser.getGender()))
+                    .andExpect(jsonPath("$.address.city").value(testUser.getAddress().getCity()))
+                    .andExpect(jsonPath("$.address.street").value(testUser.getAddress().getStreet()))
+                    .andExpect(jsonPath("$.address.state").value(testUser.getAddress().getState()))
+                    .andExpect(jsonPath("$.address.postCode").value(testUser.getAddress().getPostCode()));
 
         } catch (Exception e) {
             e.printStackTrace();
