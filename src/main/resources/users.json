@@ -1,0 +1,77 @@
+[
+  {
+    "name": {
+      "title": "Mr",
+      "firstName": "Charlie",
+      "lastName": "Smith"
+    },
+    "gender": "M",
+    "empId": "1",
+    "address": {
+      "city": "Sydney",
+      "state": "NSW",
+      "street": "121 Pacific Highway",
+      "postCode": "2077"
+    }
+  },
+  {
+    "name": {
+      "title": "Mrs",
+      "firstName": "Fiona",
+      "lastName": "Smith"
+    },
+    "gender": "F",
+    "empId": "2",
+    "address": {
+      "city": "Sydney",
+      "state": "NSW",
+      "street": "123 Pacific Highway",
+      "postCode": "2077"
+    }
+  },
+  {
+    "name": {
+      "title": "Mr",
+      "firstName": "James",
+      "lastName": "Foo"
+    },
+    "gender": "M",
+    "empId": "3",
+    "address": {
+      "city": "Melbourne",
+      "state": "VIC",
+      "street": "Sefton road",
+      "postCode": "3130"
+    }
+  },
+  {
+    "name": {
+      "title": "Mr",
+      "firstName": "Salona",
+      "lastName": "Foo"
+    },
+    "gender": "M",
+    "empId": "4",
+    "address": {
+      "city": "Sydney",
+      "state": "NSW",
+      "street": "121 Pacific Highway",
+      "postCode": "2077"
+    }
+  },
+  {
+    "name": {
+      "title": "Mrs",
+      "firstName": "Emma",
+      "lastName": "Wells"
+    },
+    "gender": "F",
+    "empId": "5",
+    "address": {
+      "city": "Brisbane",
+      "state": "Queensland",
+      "street": "121 Pacific Highway",
+      "postCode": "4077"
+    }
+  }
+]
