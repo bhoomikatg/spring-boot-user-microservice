@@ -12,7 +12,8 @@ To get it running, steps to be followed as below: **Pre-requisite:** Java 8 or h
         
 2)	Once the command has run successfully, URLs to get user details can be accessed from browser http://localhost:8080/user/1 where 1 is the employee id for the user. 5 users are loaded in memory databse(H2) on startup. Those user details are in this file /src/main/resouces/users.json.
 
-3)	URL to update the user details is http://localhost:8080/user/update and JSON to be provided in the post request body. For testing this REST client, POSTMAN or any other suitable tool can be used. 
+3)	URL to update the user details is http://localhost:8080/user/update and JSON to be provided in the post request body. For testing this, REST client/POSTMAN or any other suitable tool can be used. If user does not exist with the given employee id, new user will be created.
+
 **Sample JSON:**
 
 
